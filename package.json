@@ -1,0 +1,12 @@
+{
+    "name": "artbot",
+    "version": "1.0.0",
+    "main": "bot.js",
+    "dependencies": {
+        "telegraf": "latest",
+        "axios": "latest"
+    },
+    "devDependencies": {
+        "dotenv": "latest"
+    }
+}
