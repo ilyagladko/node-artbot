@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 const { Telegraf } = require("telegraf");
 const bot = new Telegraf(TOKEN);
 
+const url = 'https://collectionapi.metmuseum.org/public/collection/v1/';
 // ###############
 
 // Обработчик начала диалога с ботом
@@ -41,8 +42,24 @@ bot.command("cat", async (ctx) => {
 });
 
 // Обработчик простого текста
-bot.on("text", (ctx) => {
-  return ctx.reply(ctx.message.text);
+bot.on("text", async(ctx) => {
+  try {
+    const search = await fetch(url+'search?hasImages=true&q='+ctx.message.text);
+    const result = await search.json();
+    
+    const total = result.total;
+    const random = Math.round(Math.random()*total);
+
+    const object = await fetch(url+'objects/'+random);
+    const res = await object.json();
+    // ctx.reply(result.total);
+    // ctx.reply(res.primaryImage);
+    ctx.replyWithPhoto(res.primaryImage);
+  }
+  catch(e) {
+    ctx.reply('error');
+  }
+  // return ctx.reply(ctx.message.text);
 });
 
 
