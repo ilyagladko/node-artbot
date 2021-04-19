@@ -47,8 +47,8 @@ bot.on("text", async(ctx) => {
     const search = await fetch(url+'search?hasImages=true&q='+ctx.message.text);
     const result = await search.json();
     
-    const total = result.total;
-    const random = Math.round(Math.random()*total);
+    const total = await result.total;
+    const random = await Math.round(Math.random()*total);
 
     const object = await fetch(url+'objects/'+random);
     const res = await object.json();
