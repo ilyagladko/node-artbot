@@ -29,17 +29,21 @@ bot.command("whoami", (ctx) => {
 *chatId* : ${ctx.chat.id}`);
 });
 
+bot.command("cat", async (ctx) => {
+  try {
+    const pic = await fetch('https://aws.random.cat/meow');
+    const data = await pic.json();
+    ctx.replyWithPhoto(data.file);
+  }
+  catch(e) {
+    ctx.reply('error');
+  }
+});
+
 // Обработчик простого текста
 bot.on("text", (ctx) => {
   return ctx.reply(ctx.message.text);
 });
-
-bot.command("woof", async (ctx) => {
-  const response = await fetch("https://dog.ceo/api/breeds/image/random");
-  const data = await response.json();
-  return ctx.replyWithPhoto(data.file);
-});
-
 
 
 // Запуск бота
