@@ -23,7 +23,7 @@ bot.start((ctx) =>
 bot.help((ctx) => ctx.reply("Not yet"));
 
 bot.on("text", async(ctx) => {
-  console.log('text: ' + ctx.message.text);
+//  console.log('text: ' + ctx.message.text);
 
   await getRandomID(ctx, ctx.message.text)
       // ctx.replyWithPhoto({ url: img }, { caption: 'Caption' })
@@ -38,16 +38,16 @@ bot.on("text", async(ctx) => {
 function getRandomID(ctx, query) {
   axios.get(url + 'search?hasImages=true&q=' + query)
   .then(res => {
-    console.log('total: ' + res.data.total)
-    console.log('objectIDs: ' + res.data.objectIDs)
+  //  console.log('total: ' + res.data.total)
+  //  console.log('objectIDs: ' + res.data.objectIDs)
     let random = Math.round(Math.random() * res.data.total)
     object = res.data.objectIDs[random];
 
     axios.get(url + 'objects/' + object)
     .then(res => {
       img = res.data.primaryImage
+  
       console.log('img: ' + img)
-
       ctx.replyWithPhoto(img)
     })
       .catch(err => {
@@ -59,18 +59,6 @@ function getRandomID(ctx, query) {
     console.log(err)
     ctx.reply('NOPE')
   })
-}
-
-async function getImageUrl(obj) {
-  await
-    axios.get(url + 'objects/' + obj)
-    .then(res => {
-      img = res.data.primaryImageSmall
-      console.log('img: ' + img)
-    })
-    .catch(err => {
-      console.log(err)
-    })
 }
 
 // Обработчик команды /whoami
